@@ -9,8 +9,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("view/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        Parent root = FXMLLoader.load(getClass().getResource("views/sample.fxml"));
+        primaryStage.setTitle("Weather");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
@@ -18,7 +18,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //Create Weather station that holds functions needed to interface with GUI
-
         System.out.println("Connecting to Weather Station");
         WeatherStation station = new WeatherStation();
         System.out.println("Connected: "+station.status);
