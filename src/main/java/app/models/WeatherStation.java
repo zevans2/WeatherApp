@@ -1,4 +1,4 @@
-package models;
+package app.models;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,16 +9,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class WeatherStation {
     public boolean status;
     protected String url,logo, weather, temp, humidity, windStatus, windDirection, windSpeed, time, connection, feelsLike;
+    protected String output;
     protected Credentials credentials;
 
     //Constructor
-    public WeatherStation(){
+    public WeatherStation(ArrayList<String> inputs){
         //establish credentials
-        this.credentials = new Credentials();
+        this.credentials = new Credentials(inputs);
         url = credentials.getUrl();
         //connection status
         status = credentials.success;
@@ -42,12 +44,18 @@ public class WeatherStation {
         printWeatherReport();
     }
 
-    private void printWeatherReport() {
-        System.out.println("\nWeather Report For: " + credentials.getCity() + "   -   " + time);
-        System.out.println("\t" + weather);
-        System.out.println("\t" + temp + " Feels Like: " + feelsLike);
-        System.out.println("\t" + humidity + " Humidity");
-        System.out.println("\t" + "Wind Conditions: " + windStatus + " with gusts up to " + windSpeed + " to the " + windDirection);
+    public String printWeatherReport() {
+        String locationString;
+        if(credentials.getCity().length() != 0)
+            locationString = ("Weather Report For: " + credentials.getCity());
+        else
+            locationString = ("Weather Report For: " + credentials.zipcode);
+        output = (locationString + "   -   " + time + "\n" +
+        weather + "\n" +
+        "Currently: " + temp + "\nFeels Like: " + feelsLike + "\n" +
+        humidity + " Humidity" + "\n" +
+        "Wind Conditions: " + windStatus + " with gusts up to " + windSpeed);
+        return output;
     }
 
     private static String callAPI(String urlString){

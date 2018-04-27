@@ -7,5 +7,5 @@
 #   I am supplyling a generic credentials file in the repository.  You will
 #   need to modify the file by adding your own api key and the password.
 
-credentials.xml
+#credentials.xml
 .idea

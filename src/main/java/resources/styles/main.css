@@ -1,0 +1,9 @@
+#outputDisplayArea {
+    -fx-text-fill: black;
+    -fx-font-weight: bolder;
+    -fx-opacity: 1.0;
+}
+
+#author {
+    -fx-text-fill: aliceblue;
+}

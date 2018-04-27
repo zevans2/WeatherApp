@@ -1,4 +1,4 @@
-package models;
+package app.models;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -6,6 +6,7 @@ import org.jsoup.parser.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Credentials {
@@ -13,15 +14,20 @@ public class Credentials {
     private String apiKey;
     private String state;
     private String city;
+    String zipcode;
     protected boolean success = false;
     private Scanner input = new Scanner(System.in);
+
+    public Credentials(ArrayList<String> inputs) {
+        this.state = inputs.get(0);
+        this.city = inputs.get(1);
+        this.zipcode = inputs.get(2);
+    }
 
     //Primary Method for Assembling data
     private boolean populate() {
         if (url.length() < 2){
             validateXML();
-            requestState(input);
-            requestCity(input);
             assembleURL();
         }
         return success;
@@ -29,27 +35,18 @@ public class Credentials {
 
     private void assembleURL() {
         city = clean(city);
-        url += (apiKey + "/conditions/q/" + state + "/" + city + ".xml");
+        if(zipcode.length() != 5) {
+            url += (apiKey + "/conditions/q/" + state + "/" + city + ".xml");
+        }
+        else{
+            url += (apiKey + "/conditions/q/" + state + "/" + city + "/" + zipcode + ".xml");
+        }
     }
 
     private String clean(String string) {
         string = string.replaceAll("\\s", "_");
         return string;
     }
-
-    private void requestCity(Scanner input) {
-        System.out.println("Enter City: ");
-        city = input.nextLine();
-    }
-
-    private void requestState(Scanner input) {
-        System.out.println("Enter State Abbreviation");
-        state = input.nextLine();
-        while(state.length() != 2){
-            System.out.println("Please Enter A Valid 2 Letter State Abbreviation:");
-            state = input.nextLine();
-        }
-    }//end requestState
 
 
     private void validateXML(){
