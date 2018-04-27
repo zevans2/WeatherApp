@@ -10,27 +10,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Credentials {
-    private String url = "";
-    private String apiKey;
-    private String state;
-    private String city;
-    String zipcode;
+    private String url, apiKey, state, city;
+    protected String zipcode;
     protected boolean success = false;
-    private Scanner input = new Scanner(System.in);
 
-    public Credentials(ArrayList<String> inputs) {
+    Credentials(ArrayList<String> inputs) {
         this.state = inputs.get(0);
         this.city = inputs.get(1);
         this.zipcode = inputs.get(2);
     }
 
     //Primary Method for Assembling data
-    private boolean populate() {
-        if (url.length() < 2){
+    private void populate() {
             validateXML();
             assembleURL();
-        }
-        return success;
     }
 
     private void assembleURL() {
@@ -48,12 +41,10 @@ public class Credentials {
         return string;
     }
 
-
     private void validateXML(){
         File inputFile = new File("credentials.xml");
         StringBuilder xml = new StringBuilder();
         //read credentials
-        String ret;
         try {
             Scanner input = new Scanner(inputFile);
             while (input.hasNextLine()) {
@@ -77,12 +68,6 @@ public class Credentials {
     String getUrl() {
         populate();
         return url;
-    }
-
-    private String getApiKey() {
-        //Make Sure Key is updated
-        validateXML();
-        return apiKey;
     }
 
     public String getCity() {
