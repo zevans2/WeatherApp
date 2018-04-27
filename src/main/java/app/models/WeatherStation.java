@@ -2,7 +2,9 @@ package app.models;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class WeatherStation {
-    private String weather, temp, humidity, windStatus, windSpeed, time, feelsLike;
+    private String weather, temp, humidity, windStatus, windSpeed, time, feelsLike, location;
     private Credentials credentials;
 
     //Constructor
@@ -36,6 +38,8 @@ public class WeatherStation {
         windStatus = response.select("wind_string").text();
         windSpeed = response.select("wind_mph").text();
         time = response.select("observation_time").text();
+        Elements display_location = response.select("display_location");
+        location = (display_location.select("city").text() + ", " + display_location.select("state").text());
         feelsLike = response.select("feelslike_string").text();
         System.out.println(logo);
         generateReport();
@@ -43,11 +47,7 @@ public class WeatherStation {
 
     public String generateReport() {
         String locationString;
-        if(credentials.getCity().length() != 0) {
-            locationString = ("Weather Report For: " + credentials.getCity());
-        } else {
-            locationString = ("Weather Report For: " + credentials.zip);
-        }
+        locationString = ("Weather Report For: " + location);
         return (locationString + "   -   " + time + "\n" +
                 weather + "\n" +
                 "Currently: " + temp + "\nFeels Like: " + feelsLike + "\n" +

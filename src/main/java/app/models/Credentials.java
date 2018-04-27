@@ -31,7 +31,7 @@ public class Credentials {
             url += (apiKey + "/conditions/q/" + state + "/" + city + ".xml");
         }
         else{
-            url += (apiKey + "/conditions/q/" + state + "/" + city + "/" + zip + ".xml");
+            url += (apiKey + "/conditions/q/" + zip + ".xml");
         }
     }
 
