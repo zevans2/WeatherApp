@@ -11,13 +11,12 @@ import java.util.Scanner;
 
 public class Credentials {
     private String url, apiKey, state, city;
-    protected String zipcode;
-    protected boolean success = false;
+    protected String zip;
 
     Credentials(ArrayList<String> inputs) {
         this.state = inputs.get(0);
         this.city = inputs.get(1);
-        this.zipcode = inputs.get(2);
+        this.zip = inputs.get(2);
     }
 
     //Primary Method for Assembling data
@@ -28,11 +27,11 @@ public class Credentials {
 
     private void assembleURL() {
         city = clean(city);
-        if(zipcode.length() != 5) {
+        if(zip.length() != 5) {
             url += (apiKey + "/conditions/q/" + state + "/" + city + ".xml");
         }
         else{
-            url += (apiKey + "/conditions/q/" + state + "/" + city + "/" + zipcode + ".xml");
+            url += (apiKey + "/conditions/q/" + state + "/" + city + "/" + zip + ".xml");
         }
     }
 
@@ -62,7 +61,6 @@ public class Credentials {
         //Extract Key
         apiKey = doc.select("weatherUndergroundKey").text();
         System.out.println("Connection Successful:\n");
-        this.success = true;
     }
 
     String getUrl() {

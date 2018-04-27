@@ -4,10 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import app.models.WeatherStation;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class MainController {
@@ -22,15 +20,11 @@ public class MainController {
     protected TextField zipInput;
     @FXML
     protected Button submitButton;
-    @FXML
+    /*@FXML
     protected Image image;
+    */
 
-
-    public void handleSubmission(javafx.event.ActionEvent actionEvent) {
-        /*System.out.println(stateInput.getText());
-        System.out.println(cityInput.getText());
-        System.out.println(zipInput.getText());*/
-
+    public void handleSubmission() {
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add(stateInput.getText());
         inputs.add(cityInput.getText());
@@ -41,6 +35,6 @@ public class MainController {
         }
 
         WeatherStation station = new WeatherStation(inputs);
-        outputDisplayArea.setText(station.printWeatherReport());
+        outputDisplayArea.setText(station.generateReport());
     }
 }

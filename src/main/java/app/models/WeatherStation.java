@@ -12,19 +12,16 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class WeatherStation {
-    public boolean status;
-    protected String url,logo, weather, temp, humidity, windStatus, windDirection, windSpeed, time, connection, feelsLike;
-    protected String output;
-    protected Credentials credentials;
+    private String weather, temp, humidity, windStatus, windSpeed, time, feelsLike;
+    private Credentials credentials;
 
     //Constructor
     public WeatherStation(ArrayList<String> inputs){
         //establish credentials
         this.credentials = new Credentials(inputs);
-        url = credentials.getUrl();
+        String url = credentials.getUrl();
         //connection status
-        status = credentials.success;
-        connection = callAPI(url);
+        String connection = callAPI(url);
         Document response = Jsoup.parse(connection, url, Parser.xmlParser());
         //Set Current Values
         updateCurrentWeather(response);
@@ -34,32 +31,32 @@ public class WeatherStation {
         //Set Weather Variables to current values
         weather = response.select("weather").text();
         temp = response.select("temperature_string").text();
-        logo = response.select("url").text();
+        String logo = response.select("url").text();
         humidity = response.select("relative_humidity").text();
         windStatus = response.select("wind_string").text();
-        windDirection = response.select("wind_dir").text();
         windSpeed = response.select("wind_mph").text();
         time = response.select("observation_time").text();
         feelsLike = response.select("feelslike_string").text();
-        printWeatherReport();
+        System.out.println(logo);
+        generateReport();
     }
 
-    public String printWeatherReport() {
+    public String generateReport() {
         String locationString;
-        if(credentials.getCity().length() != 0)
+        if(credentials.getCity().length() != 0) {
             locationString = ("Weather Report For: " + credentials.getCity());
-        else
-            locationString = ("Weather Report For: " + credentials.zipcode);
-        output = (locationString + "   -   " + time + "\n" +
-        weather + "\n" +
-        "Currently: " + temp + "\nFeels Like: " + feelsLike + "\n" +
-        humidity + " Humidity" + "\n" +
-        "Wind Conditions: " + windStatus + " with gusts up to " + windSpeed);
-        return output;
+        } else {
+            locationString = ("Weather Report For: " + credentials.zip);
+        }
+        return (locationString + "   -   " + time + "\n" +
+                weather + "\n" +
+                "Currently: " + temp + "\nFeels Like: " + feelsLike + "\n" +
+                humidity + " Humidity" + "\n" +
+                "Wind Conditions: " + windStatus + " with gusts up to " + windSpeed);
     }
 
     private static String callAPI(String urlString){
-        String data = "";
+        StringBuilder data = new StringBuilder();
         try{
             URL url = new URL(urlString);
             BufferedReader input = new BufferedReader(
@@ -67,7 +64,7 @@ public class WeatherStation {
             );
             String s;
             while((s = input.readLine()) != null){
-                data += s;
+                data.append(s);
             }
             input.close();
         } catch (MalformedURLException e){
@@ -78,6 +75,6 @@ public class WeatherStation {
             e.printStackTrace();
             System.exit(2);
         }
-        return data;
+        return data.toString();
     }
 }
