@@ -5,11 +5,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import app.models.WeatherStation;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
 public class MainController {
 
+    @FXML
+    public ImageView logo;
     @FXML
     protected TextArea outputDisplayArea;
     @FXML
