@@ -2,7 +2,6 @@ package app.models;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
@@ -15,12 +14,12 @@ import java.util.ArrayList;
 
 public class WeatherStation {
     private String weather, temp, humidity, windStatus, windSpeed, time, feelsLike, location;
-    private Credentials credentials;
+    private String windDirection;
 
     //Constructor
     public WeatherStation(ArrayList<String> inputs){
         //establish credentials
-        this.credentials = new Credentials(inputs);
+        Credentials credentials = new Credentials(inputs);
         String url = credentials.getUrl();
         //connection status
         String connection = callAPI(url);
@@ -36,6 +35,7 @@ public class WeatherStation {
         String logo = response.select("url").text();
         humidity = response.select("relative_humidity").text();
         windStatus = response.select("wind_string").text();
+        windDirection = response.select("wind_dir").text();
         windSpeed = response.select("wind_mph").text();
         time = response.select("observation_time").text();
         Elements display_location = response.select("display_location");
@@ -52,7 +52,7 @@ public class WeatherStation {
                 weather + "\n" +
                 "Currently: " + temp + "\nFeels Like: " + feelsLike + "\n" +
                 humidity + " Humidity" + "\n" +
-                "Wind Conditions: " + windStatus + " with gusts up to " + windSpeed);
+                "Wind Conditions: " + windStatus);
     }
 
     private static String callAPI(String urlString){

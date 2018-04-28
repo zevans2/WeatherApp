@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import app.models.WeatherStation;
 import javafx.scene.image.ImageView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class MainController {
@@ -23,6 +24,10 @@ public class MainController {
     protected TextField zipInput;
     @FXML
     protected Button submitButton;
+
+    public MainController() {
+
+    }
     /*@FXML
     protected Image image;
     */
